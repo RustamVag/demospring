@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-wallet-table
+      author: your-name
+      changes:
+        - createTable:
+            tableName: wallet
+            columns:
+              - column:
+                  name: wallet_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: amount
+                  type: NUMERIC(19, 2)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-create-wallet-table-check-constraints
+      author: your-name
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: |
+              ALTER TABLE wallet
+                ADD CONSTRAINT chk_wallet_amount_positive
+                CHECK (amount >= 0);

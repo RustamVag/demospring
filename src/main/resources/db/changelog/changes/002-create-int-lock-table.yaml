@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-int-lock-table
+      author: you
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: int_lock
+      changes:
+        - createTable:
+            tableName: int_lock
+            columns:
+              - column:
+                  name: lock_key
+                  type: VARCHAR(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: region
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: VARCHAR(36)
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: int_lock
+            columnNames: lock_key, region
+            constraintName: lock_pk
